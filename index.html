@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" lang="en">
+	<title>scrub</title>
+	<script>
+		function allowDrop(ev){
+			ev.preventDefault();
+		}
+		function drag(ev)
+		{
+			ev.dataTransfer.setData("text", ev.target.id);
+		}
+		function drop(ev)
+		{
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+		function addImage(){
+			var count
+			var url = document.form1.item.value;
+			url = url.slice(url.lastIndexOf("i"));
+			var img = document.createElement("img");
+			img.src = url;
+			img.style.width = "210px";
+			img.style.height = "210px";
+			img.style.marginLeft = "5px";
+			img.setAttribute("id", url);
+			img.draggable="true";
+			img.ondragstart = drag;
+			document.getElementById("content-puts").appendChild(img);
+		}
+	</script>
+	<style>
+			.body{
+				position: fixed;
+				display: inline-block;
+				overflow: auto;
+				filter: grayscale(30%);
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #1e1e1e;
+			}
+			div:not(.body){
+				display:inline-block;
+				position: relative;
+				background-color: #ccc;
+				width: 15%;
+				height: 100%;
+			}
+			.body .puts{
+				margin-left: 50px;
+				box-shadow: -1px 0px 10px 4px;
+				background-color:#4285F4;
+			}
+			.body .ice-box{
+				background-color: #5B5EA6;
+			}
+			.body .in-progress{
+				background-color:#FBBC05;
+			}
+			.body .emergency{
+				background-color:#EA4335;
+			}
+			.body .testing{
+				background-color: #66757F;
+			}
+			.body .finished{
+				background-color: #34A853;
+				box-shadow: 1px 0px 10px 4px;
+			}
+			h2 {
+				font-family: sans-serif;
+				text-align: center;
+				color: #eee;
+				border-bottom: 1px solid #eee;
+			}
+
+#content-puts, #content-ice-box, #content-in-progress,
+		#content-emergency, #content-testing, #content-finished{
+					position: absolute;
+					top:8%;
+					width: 100%;
+					height: 92%;
+					background-color: rgba(255, 255, 255, .4);
+				}
+				.add{
+					position: fixed;
+					text-align: center;
+					left: 35px;
+					font-weight: bolder;
+					font-size: 35px;
+					color: #6e65ff;
+					cursor: pointer;
+					border-radius: 50%;
+				}
+				.add:hover{
+					box-shadow: 1px 1px 10px;
+				}
+	</style>
+</head>
+<body>
+	<div class="body">
+		<form name="form1">
+		<input type="file" name="item">
+	</form>
+		<div class="add" onclick="addImage()"style="width: 40px; height: 40px; margin: 0;">+</div>
+	<div class="puts">
+			<h2>Puts</h2>
+			<div id="content-puts">
+				<img id="img1" src="img1.jpg" width="210px" height ="210px"
+				style="margin-left: 5px;" draggable="true" ondragstart="drag(event)"/>
+			</div>
+	</div>
+	<div class="ice-box">
+			<h2>Ice-box</h2>
+			<div ondragover="allowDrop(event)" ondrop="drop(event)" id="content-ice-box"></div>
+	</div>
+	<div class="in-progress">
+			<h2>In-progress</h2>
+			<div ondragover="allowDrop(event)" ondrop="drop(event)" id="content-in-progress"></div>
+	</div>
+	<div class="emergency">
+			<h2>Emergency</h2>
+			<div ondragover="allowDrop(event)" ondrop="drop(event)" id="content-emergency"></div>
+	</div>
+	<div class="testing">
+			<h2>Testing</h2>
+			<div ondragover="allowDrop(event)" ondrop="drop(event)" id="content-testing"></div>
+		</div>
+	<div class="finished">
+			<h2>Finsihed</h2>
+			<div ondragover="allowDrop(event)" ondrop="drop(event)" id="content-finished"></div>
+		</div>
+</div>
+</body>
+</html>
